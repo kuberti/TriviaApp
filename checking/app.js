@@ -73,7 +73,7 @@ function getTime() {
 
     function incrementSeconds() {
         seconds += 1;
-        el.innerText = "Time:" + seconds + " seconds";
+        el.innerText = "Time: " + seconds + " seconds";
     }
 
     var cancel = setInterval(incrementSeconds, 1000);
