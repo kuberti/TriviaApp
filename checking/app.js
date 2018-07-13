@@ -1,9 +1,8 @@
 var questions = [];
-
+var quiz;
+function init() {
     var request = new XMLHttpRequest();
-    request.open('GET', 'https://opentdb.com/api.php?amount=5&type=multiple', true);
-    request.onloadend = function () {
-
+    request.onload = function () {
         // Begin accessing JSON data here
         var data = JSON.parse(this.response).results;
         if (request.status >= 200 && request.status < 400) {
@@ -13,26 +12,24 @@ var questions = [];
                 var correctAnswer;
                 question = movie.question;
 
-                for(i=0;i<movie.incorrect_answers.length;i++){
+                for (i = 0; i < movie.incorrect_answers.length; i++) {
                     answers.push(movie.incorrect_answers[i]);
                 }
                 answers.push(movie.correct_answer);
                 correctAnswer = movie.correct_answer;
-                var q = new Question (question, answers, correctAnswer);
+                var q = new Question(question, answers, correctAnswer);
                 questions.push(q);
             });
-
-        populate();
+            quiz = new Quiz(questions);
+            populate();
+        }
     }
-
+    request.open('GET', 'https://opentdb.com/api.php?amount=5&type=multiple', true);
     request.send();
-
-}
-
-var quiz = new Quiz(questions);
+};
 
 function populate() {
-    showProgress()
+    showProgress();
     if(quiz.isEnded()) {
         showScores();
     }
